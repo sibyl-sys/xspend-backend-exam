@@ -3,7 +3,7 @@ import * as walletModel from "../models/wallet";
 import {Wallet} from "../types/wallet";
 const walletRouter = express.Router();
 
-walletRouter.post("/wallet/create", async (req: Request, res: Response) => {
+walletRouter.post("/create", async (req: Request, res: Response) => {
     const newWallet: Wallet = req.body;
     walletModel.create(newWallet, (err: Error, insertID: number) => {
         if (err) {
