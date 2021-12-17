@@ -24,4 +24,25 @@ walletRouter.get("/read/:wallet_address", async (req: Request, res: Response) =>
     })
 });
 
+walletRouter.put("/update/", async (req: Request, res: Response) => {
+    const existingWallet: Wallet = req.body;
+    walletModel.update(existingWallet, (err: Error, wallet: Wallet) => {
+        if (err) {
+            return res.status(500).json({"message": err.message});
+        }
+
+        res.status(200).send();
+    })
+});
+
+walletRouter.delete("/delete/:wallet_address", async (req: Request, res: Response) => {
+    walletModel.deleteWallet(req.params.wallet_address, (err: Error, wallet: Wallet) => {
+        if (err) {
+            return res.status(500).json({"message": err.message});
+        }
+
+        res.status(200).send();
+    })
+})
+
 export {walletRouter};

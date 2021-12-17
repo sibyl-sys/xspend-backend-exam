@@ -24,10 +24,34 @@ export const create = (wallet: Wallet, callback: Function) => {
         if(err) {callback(err)}
 
         const row = (<RowDataPacket> result)[0];
-        const wallet: Wallet = {
-            wallet_address: row.wallet_address,
-            balance: row.balance
+        if(row) {
+            const wallet: Wallet = {
+                wallet_address: row.wallet_address,
+                balance: row.balance
+            }
+            callback(null, wallet);
         }
-        callback(null, wallet);
+    })
+  }
+
+  export const update = (wallet: Wallet, callback: Function) => {
+    const queryString = `UPDATE Wallet SET balance=? WHERE wallet_address=?`;
+
+    db.query(
+      queryString,
+      [wallet.balance, wallet.wallet_address],
+      (err, result) => {
+        if (err) {callback(err)}
+        callback(null);
+      }
+    );
+  }
+
+  export const deleteWallet = (wallet_address: string, callback: Function) => {
+    const queryString = "DELETE FROM Wallet WHERE wallet_address=?"
+
+    db.query(queryString, wallet_address, (err, result) => {
+        if (err) {callback(err)}
+        callback(null);
     })
   }
